@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 1vh 1vh black;
+}
+
+h2 {
+    text-align: center;
+    color: #007bff;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 1.5vh;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+#currency{
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+}
+
+input {
+    padding: 8px;
+    width: 91%;
+    border: 1px solid #007bff;
+    border-radius: 1vh;
+}
+
+select {
+    padding: 8px;
+    width: 100%;
+    border: 1px solid #007bff;
+    border-radius: 1vh;
+}
+
+
+button {
+    padding: 8px 20px;
+    background-color: #007bff;
+    color: #fff;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#error {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Task 7 - Currency Converter</h2>
+        <div class="input-group">
+            <div id="currency">
+            <select id="sourceCurrency">
+                <option value="USD">USD</option>
+                <option value="PKR">PKR</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+                <option value="JPY">JPY</option>
+                <option value="CAD">CAD</option>
+            </select>
+            <input type="number" id="amount" placeholder="Enter Amount">
+        </div>
+        <div id="currency">
+            <select id="targetCurrency">
+                <option value="EUR">EUR</option>
+                <option value="USD">USD</option>
+                <option value="PKR">PKR</option>
+                <option value="GBP">GBP</option>
+                <option value="JPY">JPY</option>
+                <option value="CAD">CAD</option>
+            </select>
+            <input type="number" id="result" placeholder="Result" readonly>
+        </div>
+        </div>
+        <button onclick="convert()">Convert</button>
+        <div id="error"></div>
+    </div>
+
+    <script>
+        function convert() {
+    const amount = parseFloat(document.getElementById('amount').value);
+    const sourceCurrency = document.getElementById('sourceCurrency').value;
+    const targetCurrency = document.getElementById('targetCurrency').value;
+    const conversionRates = {
+        'USD': {'EUR': 0.85, 'GBP': 0.73, 'JPY': 111.20, 'CAD': 1.27 , 'PKR': 279.53},
+        'EUR': {'USD': 1.18, 'GBP': 0.86, 'JPY': 130.89, 'CAD': 1.48, 'PKR': 304.62},
+        'GBP': {'USD': 1.38, 'EUR': 1.16, 'JPY': 152.22, 'CAD': 1.73,'PKR': 355.90 },
+        'JPY': {'USD': 0.009, 'EUR': 0.008, 'GBP': 0.007, 'CAD': 0.011, 'PKR': 1.87},
+        'CAD': {'USD': 0.79, 'EUR': 0.68, 'GBP': 0.58, 'JPY': 88.11, 'PKR': 206.39},
+        'PKR': {'USD': 0.0036, 'EUR': 0.0033, 'GBP': 0.0028, 'JPY': 0.53, 'CAD': 0.0048},
+    };
+
+    if (isNaN(amount) || amount <= 0) {
+        document.getElementById('error').textContent = 'Please enter a valid amount';
+        return;
+    }
+
+    if (!conversionRates[sourceCurrency] || !conversionRates[sourceCurrency][targetCurrency]) {
+        document.getElementById('error').textContent = 'Conversion not available';
+        return;
+    }
+
+    const result = amount * conversionRates[sourceCurrency][targetCurrency];
+    document.getElementById('result').value = `${result.toFixed(2)}`;
+}
+
+    </script>
+</body>
+</html>
